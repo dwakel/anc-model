@@ -2,6 +2,7 @@
 from flask import Flask, request, jsonify
 import joblib
 import numpy as np
+import pandas as pd
 
 app = Flask(__name__)
 model = joblib.load('../random_forest_pipeline.pkl')
@@ -17,7 +18,7 @@ def predict():
                           columns=numerical_features)
     
     # Add BP category (same logic as training)
-    bp_val = data[1]
+    bp_val = data.get('SystolicBP', 0)
     if bp_val < 90: bp_cat = 'Low'
     elif bp_val < 120: bp_cat = 'Normal'
     elif bp_val < 140: bp_cat = 'Pre-High'
