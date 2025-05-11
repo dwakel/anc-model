@@ -5,7 +5,7 @@ import numpy as np
 import pandas as pd
 
 app = Flask(__name__)
-model = joblib.load('../random_forest_pipeline.pkl')
+model = joblib.load('../xgboost_pipeline.pkl')
 numerical_features = ['Age', 'SystolicBP', 'DiastolicBP', 'BS', 'BodyTemp', 'HeartRate']
 @app.route('/predict', methods=['POST'])
 def predict():
@@ -14,8 +14,19 @@ def predict():
 
 
 # Create input DataFrame (with BP category)
-    input_df = pd.DataFrame([data],
+    input_df = pd.DataFrame([[data.get('Age', 0),
+                             data.get('SystolicBP', 0),
+                             data.get('DiastolicBP', 0),
+                             data.get('BS', 0),
+                             data.get('BodyTemp', 0),
+                             data.get('HeartRate', 0)]],
                           columns=numerical_features)
+    print("Making predictions with input data:")
+    print(data.get('SystolicBP', 0))
+    print(data.get('DiastolicBP', 0))
+    print(data.get('BS', 0))
+    print(data.get('BodyTemp', 0))
+    print(data.get('HeartRate', 0))
     
     # Add BP category (same logic as training)
     bp_val = data.get('SystolicBP', 0)
