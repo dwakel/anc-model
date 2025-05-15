@@ -1,7 +1,6 @@
 # save this as app.py
 from flask import Flask, request, jsonify, render_template
 import joblib
-import numpy as np
 import pandas as pd
 
 app = Flask(__name__, template_folder='templates')
@@ -103,4 +102,4 @@ def predict_api():
 
 if __name__ == '__main__':
     # app.run(debug=False)
-    app.run(host='0.0.0.0', debug=False)
+    app.run(host='0.0.0.0', port=8080, debug=False)
