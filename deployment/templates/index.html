@@ -126,12 +126,7 @@
     $(document).ready(function(){
         $(document).on('click', ".prediction_btn", function(e) {
     e.preventDefault();
-
     const form_data = new FormData($(".prediction_form")[0]);  // [0] accesses the DOM element
-    // Debug: Check if data is captured
-    for (let [key, value] of form_data.entries()) {
-        console.log(key, value); // Should log form field names & values
-    }
 $.ajax({
     method: "POST",
     url: "/predict",
