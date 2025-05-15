@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Health Prediction</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f4f6f8;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 5% auto;
+            background: #fff;
+            padding: 30px 40px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-top: 12px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        input[type="number"] {
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        input[type="submit"] {
+            margin-top: 25px;
+            padding: 12px;
+            background-color: #007BFF;
+            border: none;
+            border-radius: 6px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        .prediction {
+            margin-top: 25px;
+            padding: 12px;
+            background-color: #e6ffed;
+            color: #276749;
+            border-left: 5px solid #38a169;
+            font-weight: bold;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                margin: 20px;
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 22px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Health Risk Prediction</h1>
+        <form method="POST" action="/predict">
+            <label for="Age">Age:</label>
+            <input type="number" step="any" name="Age" required>
+
+            <label for="SystolicBP">Systolic BP:</label>
+            <input type="number" step="any" name="SystolicBP" required>
+
+            <label for="DiastolicBP">Diastolic BP:</label>
+            <input type="number" step="any" name="DiastolicBP" required>
+
+            <label for="BS">Blood Sugar (BS):</label>
+            <input type="number" step="any" name="BS" required>
+
+            <label for="BodyTemp">Body Temperature:</label>
+            <input type="number" step="any" name="BodyTemp" required>
+
+            <label for="HeartRate">Heart Rate:</label>
+            <input type="number" step="any" name="HeartRate" required>
+
+            <input type="submit" value="Get Prediction">
+        </form>
+
+        {% if prediction %}
+            <div class="prediction">{{ prediction }}</div>
+        {% endif %}
+    </div>
+</body>
+</html>
