@@ -4,7 +4,7 @@ import joblib
 import numpy as np
 import pandas as pd
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='templates')
 model = joblib.load('xgboost_pipeline.pkl')
 numerical_features = ['Age', 'SystolicBP', 'DiastolicBP', 'BS', 'BodyTemp', 'HeartRate']
 
