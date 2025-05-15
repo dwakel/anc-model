@@ -1,15 +1,21 @@
 # save this as app.py
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 import joblib
 import numpy as np
 import pandas as pd
 
 app = Flask(__name__)
-model = joblib.load('../xgboost_pipeline.pkl')
+model = joblib.load('xgboost_pipeline.pkl')
 numerical_features = ['Age', 'SystolicBP', 'DiastolicBP', 'BS', 'BodyTemp', 'HeartRate']
+
+@app.route('/')
+def home():
+    return render_template('index.html')
+
+
 @app.route('/predict', methods=['POST'])
 def predict():
-    data = request.get_json(force=True)
+    data = request.form
     
 
 
@@ -29,7 +35,7 @@ def predict():
     print(data.get('HeartRate', 0))
     
     # Add BP category (same logic as training)
-    bp_val = data.get('SystolicBP', 0)
+    bp_val = float(data.get('SystolicBP', 0))
     if bp_val < 90: bp_cat = 'Low'
     elif bp_val < 120: bp_cat = 'Normal'
     elif bp_val < 140: bp_cat = 'Pre-High'
@@ -38,11 +44,19 @@ def predict():
     
     # Predict and return
     prediction = model.predict(input_df)[0]
+    print(prediction)
+    predictionResult = (
+        'Low Risk' if prediction == 0 else
+        'Medium Risk' if prediction == 1 else
+        'High Risk'
+    )
 
 
+    
 
 
-    return jsonify({'prediction': prediction.tolist()})
+    # return jsonify({'prediction': prediction.tolist()})
+    return render_template('index.html', prediction=f'Prediction: {predictionResult}')
 
 if __name__ == '__main__':
     app.run(debug=False)
