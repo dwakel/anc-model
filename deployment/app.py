@@ -50,10 +50,23 @@ def predict():
         'High Risk'
     )
 
+    if prediction == 0:
+        status = 'success'
+    elif prediction == 1:
+        status = 'warning'
+    else:
+        status = 'error'
+
+  
     # return jsonify({'prediction': prediction.tolist()})
-    return render_template('index.html', prediction=f'Prediction: {predictionResult}')
+    # return render_template('index.html', prediction=f'Prediction: {predictionResult}')
 
-
+# return jsonify({'prediction': prediction.tolist(),"status":status,"message":predictionResult})
+    return jsonify({
+    'prediction': int(prediction),  # Use int if prediction is a NumPy value
+    "status": status,
+    "message": predictionResult
+    })
 @app.route('/predict-api', methods=['POST'])
 def predict_api():
     data = request.get_json(force=True)
