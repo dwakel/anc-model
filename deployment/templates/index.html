@@ -82,11 +82,14 @@
             }
         }
     </style>
+    <link href="
+    https://cdn.jsdelivr.net/npm/sweetalert2@11.21.0/dist/sweetalert2.min.css
+    " rel="stylesheet">
 </head>
 <body>
     <div class="container">
         <h1>Health Risk Prediction</h1>
-        <form method="POST" action="/predict">
+        <form method="POST" action="/predict" class="prediction_form">
             <label for="Age">Age:</label>
             <input type="number" step="any" name="Age" required>
 
@@ -105,12 +108,41 @@
             <label for="HeartRate">Heart Rate:</label>
             <input type="number" step="any" name="HeartRate" required>
 
-            <input type="submit" value="Get Prediction">
+            <input type="submit" class="prediction_btn" value="Get Prediction">
         </form>
 
         {% if prediction %}
             <div class="prediction">{{ prediction }}</div>
         {% endif %}
     </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="
+    https://cdn.jsdelivr.net/npm/sweetalert2@11.21.0/dist/sweetalert2.all.min.js
+    "></script>
 </body>
+
+<script>
+
+    $(document).ready(function(){
+        $(document).on('click', ".prediction_btn", function(e) {
+    e.preventDefault();
+    const form_data = new FormData($(".prediction_form")[0]);  // [0] accesses the DOM element
+$.ajax({
+    method: "POST",
+    url: "/predict",
+    data: form_data,
+    contentType: false,  // Required for FormData
+    processData: false,  // Required for FormData
+    success: function(res) {
+        // console.log(res);
+        Swal.fire({
+        title: `${res.message}`,
+        icon: `${res.status}`
+        });
+    }
+});
+
+});
+    })
+</script>
 </html>
