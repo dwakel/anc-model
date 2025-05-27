@@ -87,3 +87,5 @@ instance/
 # Local secrets
 *.env
 *.local
+
+.DS_Store
